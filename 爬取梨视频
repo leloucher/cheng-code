@@ -1,0 +1,14 @@
+import requests
+url='https://www.pearvideo.com/videoStatus.jsp?contId=1705803&mrd=0.6971534799049728'
+he='https://www.pearvideo.com/video_1705803'
+cont_id=he.split('_')[-1]
+headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36',
+'Referer': 'https://www.pearvideo.com/video_1705803'} 
+res=requests.get(url,headers=headers)
+target=res.json()
+systemtime=target['systemTime']
+aim=target['videoInfo']['videos']['srcUrl']
+srcurl=aim.replace(systemtime,f'cont-{cont_id}')
+with open('a.mp4',mode='wb') as f:
+    f.write(requests.get(srcurl).content)
+print('over!!')
